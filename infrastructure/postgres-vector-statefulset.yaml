@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-vector
+  namespace: ai-production
+spec:
+  serviceName: "postgres-vector"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-vector
+  template:
+    metadata:
+      labels:
+        app: postgres-vector
+    spec:
+      containers:
+      - name: postgres
+        image: pgvector/pgvector:pg16
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "password"
+        - name: POSTGRES_DB
+          value: "ai_db"
